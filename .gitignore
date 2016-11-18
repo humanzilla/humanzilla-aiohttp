@@ -1,0 +1,8 @@
+*~
+*.swp
+*.pyc
+*.lock
+*.cache
+*.egg-info/
+*.sublime-project
+*.sublime-workspace
