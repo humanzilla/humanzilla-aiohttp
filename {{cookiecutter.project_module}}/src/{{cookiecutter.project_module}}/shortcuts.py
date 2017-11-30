@@ -48,10 +48,6 @@ def accept_content(content_types: Union[List, str]):
     return decorator
 
 
-def template_view(template_name):
-    return partial(render, template_name=template_name)
-
-
 def redirect(request, name, **kw):
     """Redirect to named url"""
     router = request.app.router

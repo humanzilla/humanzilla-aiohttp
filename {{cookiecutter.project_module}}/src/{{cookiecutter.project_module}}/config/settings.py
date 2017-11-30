@@ -35,7 +35,7 @@ def setup(app: web.Application):
 
                     os.environ.setdefault(key, value)
 
-    mod = importlib.import_module('wikipy.settings')
+    mod = importlib.import_module('{{ cookiecutter.project_module }}.settings')
 
     for setting in dir(mod):
         if setting.isupper() and setting not in app:

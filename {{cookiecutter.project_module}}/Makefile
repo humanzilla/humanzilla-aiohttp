@@ -12,7 +12,7 @@ clean:
 	find . -name '*~' -exec rm -f {} \;
 
 runserver:
-	aiohttp-devtools runserver src/octopus
+	aiohttp-devtools runserver src/{{ cookiecutter.project_module }}
 
 start:
 	python src/manage.py --no-debug runserver

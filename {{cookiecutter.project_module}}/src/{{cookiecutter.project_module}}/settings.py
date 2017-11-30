@@ -16,9 +16,7 @@ GOOGLE_AUTHORIZE_URL = 'https://accounts.google.com/o/oauth2/auth'
 GOOGLE_ACCESS_TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 GOOGLE_ENDPOINT_USERINFO = 'https://www.googleapis.com/oauth2/v3/userinfo'
 
-MONGODB_DSN = 'mongodb://localhost:27017'
-
-WIKIPY_MONGODB_DSN = 'mongodb://localhost:27017/{{ cookiecutter.project_module }}'
+MONGODB_DSN = 'mongodb://localhost:27017/{{ cookiecutter.project_module }}'
 
 AUTH_LOGIN_URL = '/auth/login/'
 AUTH_LOGIN_REDIRECT = '/'
