@@ -1,7 +1,8 @@
-.PHONY: run tests dist
+.PHONY: deps clean runserver start tests
 
 deps:
-	python setup.py install
+	pip install -r requirements.txt
+	pip install -e .
 
 clean:
 	rm -rf dist
@@ -10,11 +11,11 @@ clean:
 	find . -name '*.pyo' -exec rm -f {} \;
 	find . -name '*~' -exec rm -f {} \;
 
-dist:
-	python setup.py sdist
+runserver:
+	aiohttp-devtools runserver src/octopus
 
-run:
-	{{ cookiecutter.project_module }} run --host=$(host)
+start:
+	python src/manage.py --no-debug runserver
 
 tests:
 	py.test -vv --cov {{ cookiecutter.project_module }} --cov-report html --cov-report xml tests

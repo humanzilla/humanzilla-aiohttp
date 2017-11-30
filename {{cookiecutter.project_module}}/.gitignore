@@ -1,11 +1,10 @@
 *.py[cod]
-
-# C extensions
 *.so
-
-# Packages
 *.egg
 *.egg-info
+
+__pycache__
+
 dist
 build
 eggs
@@ -18,11 +17,16 @@ develop-eggs
 lib
 lib64
 
-# JS packages
+.idea
+.vscode
+.env
+
 bower_components
 node_modules
 libs
 
-# Translations
+
 *.mo
 *.pot
+
+.python-version

@@ -4,11 +4,7 @@ import os
 import socket
 import pytest
 
-from alembic.config import Config as AlembicConfig
-from alembic import command
-
-
-from {{ cookiecutter.project_module }} import Application
+from {{ cookiecutter.project_module }}.main import create_app
 
 
 @pytest.yield_fixture('function')
@@ -16,8 +12,7 @@ def application(request):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(None)
 
-    app = Application(loop=loop)
-    loop.run_until_complete(app.configure())
+    app = create_app(loop=loop)
 
     yield app
 
@@ -26,27 +21,7 @@ def application(request):
     loop.close()
 
 
-@pytest.fixture('function')
-def db(application, request):
-    directory = application.config.get('MIGRATIONS_ROOT')
-    db_uri = application.config.get('SQLALCHEMY_DSN')
-
-    config = AlembicConfig(os.path.join(directory, 'alembic.ini'))
-    config.set_main_option('script_location', directory)
-    config.set_main_option('sqlalchemy.url', db_uri)
-
-    command.upgrade(config, revision='head')
-
-    def teardown():
-        command.downgrade(config, revision='base')
-
-    request.addfinalizer(teardown)
-    return None
-
-
-@asyncio.coroutine
-def create_server(application):
-
+async def create_server(application):
     def find_unused_port():
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind(('127.0.0.1', 0))
@@ -55,17 +30,20 @@ def create_server(application):
         return port
 
     port = find_unused_port()
-    srv = yield from application.loop.create_server(
-        application.make_handler(keep_alive=False), '127.0.0.1', port)
+
+    server = await application.loop.create_server(
+        application.make_handler(keep_alive=False),
+        host='127.0.0.1',
+        port=port)
+
     url = 'http://127.0.0.1:{port}'.format(port=port)
-    return srv, url
+    return server, url
 
 
-def async_test(f):
-    @wraps(f)
+def async_test(func):
+    @wraps(func)
     def wrapper(*args, **kwargs):
         application = kwargs.get('application')
-        func = asyncio.coroutine(f)
         application.loop.run_until_complete(func(*args, **kwargs))
 
     return wrapper
