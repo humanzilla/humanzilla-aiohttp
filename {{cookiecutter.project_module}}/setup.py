@@ -1,7 +1,6 @@
 import os
 from setuptools import setup, find_packages
 
-
 project = '{{ cookiecutter.project_module }}'
 assets = 'src/{{ cookiecutter.project_module }}/static'.format(project=project)
 

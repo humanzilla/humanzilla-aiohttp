@@ -15,7 +15,10 @@ project_root = Path(__file__).parent.resolve() / "{{ cookiecutter.project_module
 @click.option('--debug/--no-debug', default=True)
 @click.pass_context
 def cli(ctx, verbose, debug):
-    ctx.obj = {'DEBUG': debug, 'VERBOSE': verbose}
+    ctx.obj = {
+        'DEBUG': debug,
+        'VERBOSE': verbose
+    }
 
 
 def load_commands():

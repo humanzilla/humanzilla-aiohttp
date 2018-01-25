@@ -10,7 +10,7 @@ from {{ cookiecutter.project_module }}.main import create_app
 
 def pytest_configure(config):
     os.environ['ENVIRONMENT'] = 'testing'
-    os.environ['MONGODB_DSN'] = 'mongodb://localhost:27017/wiki_test'
+    os.environ['MONGODB_DSN'] = 'mongodb://localhost:27017/{{ cookiecutter.project_module }}_test'
 
 
 @pytest.fixture

@@ -32,7 +32,6 @@ tests:
 isort:
 	isort -rc src/{{ cookiecutter.project_module }}
 
-
 .PHONY: linter
 linter:
 	flake8 src/{{ cookiecutter.project_module }}
