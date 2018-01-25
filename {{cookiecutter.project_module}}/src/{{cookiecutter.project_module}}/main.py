@@ -3,45 +3,39 @@ from aiohttp import web
 from {{ cookiecutter.project_module }}.shortcuts import render
 
 
-async def landing(request):
-    return await render(request, 'landing.html')
+__ENVIRONMEMT__ = os.environ.get('ENVIRONMENT', 'development') == 'testing'
+
+assert __ENVIRONMEMT__ in ['develop', 'testing', 'production'], f'Unknown environment {__ENVIRONMEMT__}'
 
 
 class Application(web.Application):
     def __repr__(self):
-        return "<{{ cookiecutter.project_module }} 0x{:x}>".format(id(self))
+        return "<{{ cookiecutter.project_module|title }} 0x{:x}>".format(id(self))
 
     def setup(self, stage=3):
         from . import config, handlers
 
-        config.settings.setup(self)
+        config.config.setup(self)
 
-        if stage < 1:
-            return self
-
-        if stage > 0:
+        if stage >= 1:
             config.database.setup(self)
 
-        if stage > 1:
-            config.assets.setup(self)
-            config.templates.setup(self)
-            config.middleware.setup(self)
+        if stage < 2:
+            return self
 
-            self.router.add_get('/', landing, name='landing')
+        if not self.debug and __ENVIRONMEMT__ != 'testing':
+            logging.config.dictConfig(self['LOGGING'])
 
-            self.router.add_get('/auth/login/', handlers.auth_login, name='login')
-            self.router.add_get('/auth/logout/', handlers.auth_logout, name='logout')
-            self.router.add_get('/auth/authorize/', handlers.auth_callback, name='google_auth_callback')
+        config.errors.setup(self)
+        config.sessions.setup(self)
+        config.middleware.setup(self)
+        config.tasks.setup(self)
+        config.templates.setup(self)
 
-            self.router.add_get('/user/', handlers.user_detail, name='user_detail')
-            self.router.add_post('/user/edit/', handlers.user_edit, name='user_edit')
+        handlers.setup()
 
 
 def create_app(loop, debug=True, stage: int = 3):
-    from . import config, handlers
-    from .shortcuts import template_view
-
     app = Application(loop=loop, debug=debug)
     app.setup(stage=stage)
-
     return app

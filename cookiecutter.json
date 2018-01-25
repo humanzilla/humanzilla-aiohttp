@@ -1,8 +1,9 @@
 {
-  "project_name": null,
-	"project_module": null,
-  "author": "Mario César Señoranis Ayala",
-  "author_email": "Mario César Señoranis Ayala",
-  "project_url": "",
-  "description": ""
+    "project_name": null,
+    "project_module": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "author": "Mario César Señoranis Ayala",
+    "author_email": "Mario César Señoranis Ayala",
+    "version": "0.1.0",
+    "project_url": "",
+    "description": ""
 }

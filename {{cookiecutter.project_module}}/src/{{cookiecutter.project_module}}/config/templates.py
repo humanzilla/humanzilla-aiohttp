@@ -18,12 +18,14 @@ def astable_filter(value):
 @jinja2.contextfunction
 def static(context, value):
     app = context['app']
-    url = app.router['static'].url_for(filename=value)
-    return f'{url}?{app["started"].timestamp()}'
+    return app.router['static'].url_for(filename=value)
 
 
 async def user_context_processor(request):
-    return {'user': getattr(request, 'user', None)}
+    return {
+        'user': getattr(request, 'user', None),
+        'debug': request.app.debug
+    }
 
 
 def setup(app: web.Application):

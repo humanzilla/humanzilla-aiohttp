@@ -1,32 +1,31 @@
 *.py[cod]
-*.so
-*.egg
-*.egg-info
-
 __pycache__
 
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
+*.so
+*.mo
 
-.idea
-.vscode
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+dist/
+build/
+parts/
+var/
+sdist/
+
+.venv/
+.eggs/
+*.egg-info/
+
+.idea/
+.vscode/
+
 .env
+.python-version
 
 bower_components
 node_modules
-libs
 
-
-*.mo
-*.pot
-
-.python-version
+.coverage
+coverage.xml

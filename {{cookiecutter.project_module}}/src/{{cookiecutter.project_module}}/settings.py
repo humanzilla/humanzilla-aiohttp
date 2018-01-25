@@ -29,3 +29,32 @@ TEMPLATES_DIRS = (
 
 STATIC_ROOT = location('../../public/static')
 MEDIA_ROOT = location('../../public/media')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'INFO',
+        },
+    },
+    'loggers': {
+        'aiohttp.access': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+        'aiohttp.server': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+        'aiohttp.web': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+        'aiohttp.socketio': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+    }
+}
